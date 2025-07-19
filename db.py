@@ -58,3 +58,16 @@ def hobbies_all():
         """
     ).fetchall()
     return [dict(row) for row in rows]
+
+def hobbies_create(name, location, description):
+    conn = connect_to_db()
+    row = conn.execute(
+        """
+        INSERT INTO hobbies (name, location, description)
+        VALUES (?, ?, ?)
+        RETURNING *
+        """,
+        (name, location, description),
+    ).fetchone()
+    conn.commit()
+    return dict(row)
