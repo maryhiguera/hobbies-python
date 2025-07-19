@@ -96,3 +96,15 @@ def hobbies_update_by_id(id, name, location, description):
     ).fetchone()
     conn.commit()
     return dict(row)
+
+def hobbies_destroy_by_id(id):
+    conn = connect_to_db()
+    row = conn.execute(
+        """
+        DELETE from hobbies
+        WHERE id = ?
+        """,
+        (id,),
+    )
+    conn.commit()
+    return {"message": "Hobbie destroyed successfully"}

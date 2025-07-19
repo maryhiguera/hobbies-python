@@ -26,3 +26,7 @@ def update(id):
     location = request.args.get("location") or hobbie["location"]
     description = request.args.get("description") or hobbie["description"]
     return db.hobbies_update_by_id(id, name, location, description)
+
+@app.route("/hobbies/<id>.json", methods=["DELETE"])
+def destroy(id):
+    return db.hobbies_destroy_by_id(id)
