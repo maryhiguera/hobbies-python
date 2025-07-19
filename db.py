@@ -11,33 +11,35 @@ def initial_setup():
     conn = connect_to_db()
     conn.execute(
         """
-        DROP TABLE IF EXISTS photos;
+        DROP TABLE IF EXISTS hobbies;
         """
     )
     conn.execute(
         """
-        CREATE TABLE photos (
+        CREATE TABLE hobbies (
           id INTEGER PRIMARY KEY NOT NULL,
           name TEXT,
-          width INTEGER,
-          height INTEGER
+          location TEXT,
+          description TEXT
         );
         """
     )
     conn.commit()
     print("Table created successfully")
 
-    photos_seed_data = [
-        ("1st photo", 800, 400),
-        ("2nd photo", 1024, 768),
-        ("3rd photo", 200, 150),
+    hobbies_seed_data = [
+        ("Hiking", "Zion National Park", "Exploring nature trails and scenic views."),
+        ("Photography", "Downtown Kanab", "Capturing urban and landscape images."),
+        ("Pottery", "Kanab Arts Center", "Creating clay art and functional pieces."),
+        ("Stargazing", "Bryce Canyon", "Observing celestial bodies in the night sky."),
+        ("Rock Climbing", "Red Cliffs", "Scaling sandstone cliffs and boulders.")
     ]
     conn.executemany(
         """
-        INSERT INTO photos (name, width, height)
+        INSERT INTO hobbies (name, location, description)
         VALUES (?,?,?)
         """,
-        photos_seed_data,
+        hobbies_seed_data,
     )
     conn.commit()
     print("Seed data created successfully")
@@ -47,3 +49,12 @@ def initial_setup():
 
 if __name__ == "__main__":
     initial_setup()
+
+def hobbies_all():
+    conn = connect_to_db()
+    rows = conn.execute(
+        """
+        SELECT * FROM hobbies
+        """
+    ).fetchall()
+    return [dict(row) for row in rows]
