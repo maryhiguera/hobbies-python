@@ -33,6 +33,7 @@ def initial_setup():
         ("Pottery", "Kanab Arts Center", "Creating clay art and functional pieces."),
         ("Stargazing", "Bryce Canyon", "Observing celestial bodies in the night sky."),
         ("Rock Climbing", "Red Cliffs", "Scaling sandstone cliffs and boulders.")
+
     ]
     conn.executemany(
         """
@@ -70,4 +71,15 @@ def hobbies_create(name, location, description):
         (name, location, description),
     ).fetchone()
     conn.commit()
+    return dict(row)
+
+def hobbies_find_by_id(id):
+    conn = connect_to_db()
+    row = conn.execute(
+        """
+        SELECT * FROM hobbies
+        WHERE id = ?
+        """,
+        (id,),
+    ).fetchone()
     return dict(row)

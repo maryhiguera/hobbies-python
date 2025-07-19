@@ -14,3 +14,7 @@ def create():
     location = request.args.get("location")
     description = request.args.get("description")
     return db.hobbies_create(name, location, description)
+
+@app.route("/hobbies/<id>.json")
+def show(id):
+    return db.hobbies_find_by_id(id)
