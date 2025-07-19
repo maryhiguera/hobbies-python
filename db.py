@@ -83,3 +83,16 @@ def hobbies_find_by_id(id):
         (id,),
     ).fetchone()
     return dict(row)
+
+def hobbies_update_by_id(id, name, location, description):
+    conn = connect_to_db()
+    row = conn.execute(
+        """
+        UPDATE hobbies SET name = ?, location = ?, description = ?
+        WHERE id = ?
+        RETURNING *
+        """,
+        (name, location, description, id),
+    ).fetchone()
+    conn.commit()
+    return dict(row)
